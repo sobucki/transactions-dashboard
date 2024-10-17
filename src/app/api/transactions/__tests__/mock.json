@@ -1,0 +1,101 @@
+[
+  {
+    "date": 1729195017000,
+    "amount": "3462",
+    "transaction_type": "deposit",
+    "currency": "brl",
+    "account": "Mondelez International",
+    "industry": "Food Consumer Products",
+    "state": "IL"
+  },
+  {
+    "date": 1637751477490,
+    "amount": "3462",
+    "transaction_type": "deposit",
+    "currency": "brl",
+    "account": "Mondelez International",
+    "industry": "Food Consumer Products",
+    "state": "IL"
+  },
+  {
+    "date": 1637751477490,
+    "amount": "1500",
+    "transaction_type": "withdraw",
+    "currency": "usd",
+    "account": "Apple Inc",
+    "industry": "Technology",
+    "state": "CA"
+  },
+  {
+    "date": 1637751477490,
+    "amount": "2000",
+    "transaction_type": "deposit",
+    "currency": "eur",
+    "account": "Tesla Inc",
+    "industry": "Automotive",
+    "state": "CA"
+  },
+  {
+    "date": 1609459200000,
+    "amount": "500",
+    "transaction_type": "withdraw",
+    "currency": "usd",
+    "account": "Amazon",
+    "industry": "E-commerce",
+    "state": "WA"
+  },
+  {
+    "date": 1609459200000,
+    "amount": "3000",
+    "transaction_type": "deposit",
+    "currency": "usd",
+    "account": "Google",
+    "industry": "Technology",
+    "state": "CA"
+  },
+  {
+    "date": 1609459200000,
+    "amount": "2500",
+    "transaction_type": "withdraw",
+    "currency": "usd",
+    "account": "Microsoft",
+    "industry": "Technology",
+    "state": "WA"
+  },
+  {
+    "date": 1637751477490,
+    "amount": "1000",
+    "transaction_type": "deposit",
+    "currency": "usd",
+    "account": "Facebook",
+    "industry": "Social Media",
+    "state": "CA"
+  },
+  {
+    "date": 1637751477490,
+    "amount": "750",
+    "transaction_type": "withdraw",
+    "currency": "usd",
+    "account": "Netflix",
+    "industry": "Entertainment",
+    "state": "CA"
+  },
+  {
+    "date": 1609459200000,
+    "amount": "1200",
+    "transaction_type": "deposit",
+    "currency": "usd",
+    "account": "Twitter",
+    "industry": "Social Media",
+    "state": "CA"
+  },
+  {
+    "date": 1609459200000,
+    "amount": "1800",
+    "transaction_type": "withdraw",
+    "currency": "usd",
+    "account": "Uber",
+    "industry": "Transportation",
+    "state": "CA"
+  }
+]
