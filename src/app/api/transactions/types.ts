@@ -13,9 +13,10 @@ export type TransactionType = "deposit" | "withdraw";
 export type FilterOptions = {
   startDate?: string;
   endDate?: string;
-  minAmount?: number;
-  maxAmount?: number;
+  minAmount?: string;
+  maxAmount?: string;
   transactionType?: TransactionType;
+  currency?: string;
   account?: string;
   industry?: string;
   state?: string;

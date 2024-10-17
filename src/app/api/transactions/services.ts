@@ -34,5 +34,45 @@ export function filterTransactions(
     );
   }
 
+  if (filter.currency) {
+    filteredData = filteredData.filter(
+      (transaction) => transaction.currency === filter.currency
+    );
+  }
+
+  if (filter.account) {
+    filteredData = filteredData.filter(
+      (transaction) => transaction.account === filter.account
+    );
+  }
+
+  if (filter.industry) {
+    filteredData = filteredData.filter(
+      (transaction) => transaction.industry === filter.industry
+    );
+  }
+
+  if (filter.state) {
+    filteredData = filteredData.filter(
+      (transaction) => transaction.state === filter.state
+    );
+  }
+
+  if (filter.maxAmount !== undefined) {
+    filteredData = filteredData.filter(
+      (transaction) =>
+        filter.maxAmount &&
+        parseFloat(transaction.amount) <= parseFloat(filter.maxAmount)
+    );
+  }
+
+  if (filter.minAmount !== undefined) {
+    filteredData = filteredData.filter(
+      (transaction) =>
+        filter.minAmount &&
+        parseFloat(transaction.amount) >= parseFloat(filter.minAmount)
+    );
+  }
+
   return filteredData;
 }
