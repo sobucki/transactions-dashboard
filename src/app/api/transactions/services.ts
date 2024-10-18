@@ -1,11 +1,13 @@
 import { endOfDay, parseISO, startOfDay } from "date-fns";
-import { FilterOptions, Transaction } from "./types";
+import { FilterOptions, SortOptions, Transaction } from "./types";
 
 export function filterTransactions(
   data: Transaction[],
-  filter: FilterOptions
-  // sortBy: SortOptions
+  filter: FilterOptions,
+  sortOptions?: SortOptions
 ): Transaction[] {
+  const defaultSortOptions: SortOptions = { sortBy: "date", sortOrder: "desc" };
+  const finalSortOptions = sortOptions || defaultSortOptions;
   let filteredData = data;
 
   if (filter.startDate) {
@@ -72,6 +74,14 @@ export function filterTransactions(
         filter.minAmount &&
         parseFloat(transaction.amount) >= parseFloat(filter.minAmount)
     );
+  }
+  if (finalSortOptions) {
+    const { sortBy, sortOrder } = finalSortOptions;
+    filteredData = filteredData.sort((a, b) => {
+      if (a[sortBy] < b[sortBy]) return sortOrder === "asc" ? -1 : 1;
+      if (a[sortBy] > b[sortBy]) return sortOrder === "asc" ? 1 : -1;
+      return 0;
+    });
   }
 
   return filteredData;

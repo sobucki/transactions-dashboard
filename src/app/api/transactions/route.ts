@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
-import { Transaction } from "./types";
+import { FilterOptions, Transaction } from "./types";
+import { filterTransactions } from "./services";
 
 export async function GET(request: NextRequest) {
   try {
@@ -10,37 +11,44 @@ export async function GET(request: NextRequest) {
     let data: Transaction[] = JSON.parse(jsonData);
 
     const { searchParams } = new URL(request.url);
-    const type = searchParams.get("type");
-    const minAmount = searchParams.get("minAmount");
-    const maxAmount = searchParams.get("maxAmount");
 
-    // escreva um codigi para filtrar os dados somente desse ano
-    const date = new Date();
-    const year = date.getFullYear() - 1;
-    data = data.filter((transaction) => {
-      const transactionDate = new Date(transaction.date);
-      return transactionDate.getFullYear() === year;
-    });
+    // Construir o objeto de opções de filtro a partir dos parâmetros de consulta
+    const filter: FilterOptions = {};
+
+    filter.startDate = searchParams.get("startDate") || undefined;
+    filter.endDate = searchParams.get("endDate") || undefined;
+    filter.minAmount = searchParams.get("minAmount") || undefined;
+    filter.maxAmount = searchParams.get("maxAmount") || undefined;
+    filter.transactionType =
+      (searchParams.get(
+        "transactionType"
+      ) as FilterOptions["transactionType"]) || undefined;
+
+    // Parâmetros que são arrays
+    const accounts = searchParams.getAll("account");
+    if (accounts.length > 0) {
+      filter.account = accounts;
+    }
+
+    const industries = searchParams.getAll("industry");
+    if (industries.length > 0) {
+      filter.industry = industries;
+    }
+
+    const states = searchParams.getAll("state");
+    if (states.length > 0) {
+      filter.state = states;
+    }
+
+    const currencies = searchParams.getAll("currency");
+    if (currencies.length > 0) {
+      filter.currency = currencies;
+    }
+
+    // Filtrar os dados usando o serviço criado
+    data = filterTransactions(data, filter);
 
     return NextResponse.json(data);
-    // // Filtrar os dados com base nos parâmetros
-    // if (type) {
-    //   data = data.filter((transaction) => transaction.type === type);
-    // }
-
-    // if (minAmount) {
-    //   data = data.filter(
-    //     (transaction) => transaction.amount >= Number(minAmount)
-    //   );
-    // }
-
-    // if (maxAmount) {
-    //   data = data.filter(
-    //     (transaction) => transaction.amount <= Number(maxAmount)
-    //   );
-    // }
-
-    // return NextResponse.json(data);
   } catch (error) {
     console.error(error);
     return NextResponse.json(
