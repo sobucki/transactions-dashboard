@@ -16,10 +16,10 @@ export type FilterOptions = {
   minAmount?: string;
   maxAmount?: string;
   transactionType?: TransactionType;
-  currency?: string;
-  account?: string;
-  industry?: string;
-  state?: string;
+  currency?: string[];
+  account?: string[];
+  industry?: string[];
+  state?: string[];
 };
 
 export type SortOptions = {

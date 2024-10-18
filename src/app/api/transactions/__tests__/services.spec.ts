@@ -158,7 +158,7 @@ describe("services tests", () => {
     describe("currency", () => {
       it("should filter transactions by currency brl", () => {
         const result = filterTransactions(transactionsData as Transaction[], {
-          currency: "brl",
+          currency: ["brl"],
           transactionType: "deposit",
         });
 
@@ -186,7 +186,7 @@ describe("services tests", () => {
 
       it("should filter transactions by currency euro", () => {
         const result = filterTransactions(transactionsData as Transaction[], {
-          currency: "eur",
+          currency: ["eur"],
         });
 
         expect(result).toEqual([
@@ -201,12 +201,102 @@ describe("services tests", () => {
           },
         ]);
       });
+
+      it("should filter transactions by currency euro and dollar", () => {
+        const result = filterTransactions(transactionsData as Transaction[], {
+          currency: ["eur", "usd"],
+        });
+
+        expect(result).toEqual([
+          {
+            account: "Apple Inc",
+            amount: "1500",
+            currency: "usd",
+            date: 1637751477490,
+            industry: "Technology",
+            state: "CA",
+            transaction_type: "withdraw",
+          },
+          {
+            account: "Tesla Inc",
+            amount: "2000",
+            currency: "eur",
+            date: 1637751477490,
+            industry: "Automotive",
+            state: "CA",
+            transaction_type: "deposit",
+          },
+          {
+            account: "Amazon",
+            amount: "500",
+            currency: "usd",
+            date: 1609459200000,
+            industry: "E-commerce",
+            state: "WA",
+            transaction_type: "withdraw",
+          },
+          {
+            account: "Google",
+            amount: "3000",
+            currency: "usd",
+            date: 1609459200000,
+            industry: "Technology",
+            state: "CA",
+            transaction_type: "deposit",
+          },
+          {
+            account: "Microsoft",
+            amount: "2500",
+            currency: "usd",
+            date: 1609459200000,
+            industry: "Technology",
+            state: "WA",
+            transaction_type: "withdraw",
+          },
+          {
+            account: "Facebook",
+            amount: "1000",
+            currency: "usd",
+            date: 1637751477490,
+            industry: "Social Media",
+            state: "CA",
+            transaction_type: "deposit",
+          },
+          {
+            account: "Netflix",
+            amount: "750",
+            currency: "usd",
+            date: 1637751477490,
+            industry: "Entertainment",
+            state: "CA",
+            transaction_type: "withdraw",
+          },
+          {
+            account: "Twitter",
+            amount: "1200",
+            currency: "usd",
+            date: 1609459200000,
+            industry: "Social Media",
+            state: "CA",
+            transaction_type: "deposit",
+          },
+          {
+            account: "Uber",
+            amount: "1800",
+            currency: "usd",
+            date: 1609459200000,
+            industry: "Transportation",
+            state: "CA",
+            transaction_type: "withdraw",
+          },
+        ]);
+      });
     });
 
     describe("account", () => {
       it("should filter transactions by account name", () => {
         const result = filterTransactions(transactionsData as Transaction[], {
-          account: "Apple Inc",
+          account: ["Apple Inc"],
         });
 
         expect(result).toEqual([
@@ -221,12 +311,39 @@ describe("services tests", () => {
           },
         ]);
       });
+
+      it("should filter transactions by accounts name", () => {
+        const result = filterTransactions(transactionsData as Transaction[], {
+          account: ["Apple Inc", "Amazon"],
+        });
+
+        expect(result).toEqual([
+          {
+            account: "Apple Inc",
+            amount: "1500",
+            currency: "usd",
+            date: 1637751477490,
+            industry: "Technology",
+            state: "CA",
+            transaction_type: "withdraw",
+          },
+          {
+            account: "Amazon",
+            amount: "500",
+            currency: "usd",
+            date: 1609459200000,
+            industry: "E-commerce",
+            state: "WA",
+            transaction_type: "withdraw",
+          },
+        ]);
+      });
     });
 
     describe("industry", () => {
       it("should filter transactions by industry name", () => {
         const result = filterTransactions(transactionsData as Transaction[], {
-          industry: "Technology",
+          industry: ["Technology"],
         });
 
         expect(result).toEqual([
@@ -259,12 +376,57 @@ describe("services tests", () => {
           },
         ]);
       });
+
+      it("should filter transactions by industries names", () => {
+        const result = filterTransactions(transactionsData as Transaction[], {
+          industry: ["Technology", "Automotive"],
+        });
+
+        expect(result).toEqual([
+          {
+            date: 1637751477490,
+            amount: "1500",
+            transaction_type: "withdraw",
+            currency: "usd",
+            account: "Apple Inc",
+            industry: "Technology",
+            state: "CA",
+          },
+          {
+            account: "Tesla Inc",
+            amount: "2000",
+            currency: "eur",
+            date: 1637751477490,
+            industry: "Automotive",
+            state: "CA",
+            transaction_type: "deposit",
+          },
+          {
+            account: "Google",
+            amount: "3000",
+            currency: "usd",
+            date: 1609459200000,
+            industry: "Technology",
+            state: "CA",
+            transaction_type: "deposit",
+          },
+          {
+            account: "Microsoft",
+            amount: "2500",
+            currency: "usd",
+            date: 1609459200000,
+            industry: "Technology",
+            state: "WA",
+            transaction_type: "withdraw",
+          },
+        ]);
+      });
     });
 
     describe("state", () => {
       it("should filter transactions by state name", () => {
         const result = filterTransactions(transactionsData as Transaction[], {
-          state: "IL",
+          state: ["IL"],
         });
 
         expect(result).toEqual([
@@ -285,6 +447,51 @@ describe("services tests", () => {
             industry: "Food Consumer Products",
             state: "IL",
             transaction_type: "deposit",
+          },
+        ]);
+      });
+
+      it("should filter transactions by states names", () => {
+        const result = filterTransactions(transactionsData as Transaction[], {
+          state: ["IL", "WA"],
+        });
+
+        expect(result).toEqual([
+          {
+            account: "Mondelez International",
+            amount: "3462",
+            currency: "brl",
+            date: 1729195017000,
+            industry: "Food Consumer Products",
+            state: "IL",
+            transaction_type: "deposit",
+          },
+          {
+            account: "Mondelez International",
+            amount: "3462",
+            currency: "brl",
+            date: 1637751477490,
+            industry: "Food Consumer Products",
+            state: "IL",
+            transaction_type: "deposit",
+          },
+          {
+            account: "Amazon",
+            amount: "500",
+            currency: "usd",
+            date: 1609459200000,
+            industry: "E-commerce",
+            state: "WA",
+            transaction_type: "withdraw",
+          },
+          {
+            account: "Microsoft",
+            amount: "2500",
+            currency: "usd",
+            date: 1609459200000,
+            industry: "Technology",
+            state: "WA",
+            transaction_type: "withdraw",
           },
         ]);
       });

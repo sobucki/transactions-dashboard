@@ -34,27 +34,27 @@ export function filterTransactions(
     );
   }
 
-  if (filter.currency) {
-    filteredData = filteredData.filter(
-      (transaction) => transaction.currency === filter.currency
+  if (filter.currency && Array.isArray(filter.currency)) {
+    filteredData = filteredData.filter((transaction) =>
+      filter.currency?.includes(transaction.currency)
     );
   }
 
-  if (filter.account) {
-    filteredData = filteredData.filter(
-      (transaction) => transaction.account === filter.account
+  if (filter.account && Array.isArray(filter.account)) {
+    filteredData = filteredData.filter((transaction) =>
+      filter.account?.includes(transaction.account)
     );
   }
 
-  if (filter.industry) {
-    filteredData = filteredData.filter(
-      (transaction) => transaction.industry === filter.industry
+  if (filter.industry && Array.isArray(filter.industry)) {
+    filteredData = filteredData.filter((transaction) =>
+      filter.industry?.includes(transaction.industry)
     );
   }
 
-  if (filter.state) {
-    filteredData = filteredData.filter(
-      (transaction) => transaction.state === filter.state
+  if (filter.state && Array.isArray(filter.state)) {
+    filteredData = filteredData.filter((transaction) =>
+      filter.state?.includes(transaction.state)
     );
   }
 
