@@ -1,5 +1,5 @@
 import { endOfDay, parseISO, startOfDay } from "date-fns";
-import { FilterOptions, SortOptions, Transaction } from "./types";
+import { FilterOptions, SortOptions, Transaction } from "../types";
 
 export function filterTransactions(
   data: Transaction[],
@@ -85,4 +85,10 @@ export function filterTransactions(
   }
 
   return filteredData;
+}
+
+export function getUniqueValues(data: Transaction[], key: keyof Transaction) {
+  const values = data.map((transaction) => transaction[key]);
+  const uniqueValues = Array.from(new Set(values));
+  return uniqueValues.sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
 }

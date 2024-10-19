@@ -2,12 +2,18 @@ import { Bar } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import Chart from "chart.js/auto";
 import Card from "@/components/card";
+import { Transaction } from "@/app/api/transactions/types";
 
 Chart.register(CategoryScale);
 
-function BarCard() {
-  const data = {
+type BarCardProps = {
+  data: Transaction[];
+};
+
+function BarCard({ data }: BarCardProps) {
+  const dataChart = {
     labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio"],
+    // labels: getUniqueValues(data, "account"),
     datasets: [
       {
         label: "Vendas",
@@ -21,7 +27,7 @@ function BarCard() {
   return (
     <Card>
       <Bar
-        data={data}
+        data={dataChart}
         options={{
           responsive: true,
           plugins: {

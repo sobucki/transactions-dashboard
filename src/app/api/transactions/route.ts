@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 import { FilterOptions, Transaction } from "./types";
-import { filterTransactions } from "./services";
+import { filterTransactions } from "./util/service-util";
 
 export async function GET(request: NextRequest) {
   try {
@@ -12,7 +12,6 @@ export async function GET(request: NextRequest) {
 
     const { searchParams } = new URL(request.url);
 
-    // Construir o objeto de opções de filtro a partir dos parâmetros de consulta
     const filter: FilterOptions = {};
 
     filter.startDate = searchParams.get("startDate") || undefined;
@@ -45,7 +44,6 @@ export async function GET(request: NextRequest) {
       filter.currency = currencies;
     }
 
-    // Filtrar os dados usando o serviço criado
     data = filterTransactions(data, filter);
 
     return NextResponse.json(data);

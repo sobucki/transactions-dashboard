@@ -1,5 +1,5 @@
-import { filterTransactions } from "../services";
-import { Transaction } from "../types";
+import { Transaction } from "../../types";
+import { filterTransactions } from "../service-util";
 import transactionsData from "./mock.json";
 
 describe("services tests", () => {
