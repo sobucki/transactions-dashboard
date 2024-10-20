@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import BarChart from "./components/bar-chart";
 import Filter from "./components/filter";
-import LineChart from "./components/line-chart";
 import { Container, Sidebar, Content } from "./styles";
 import { FilterOptions } from "../api/transactions/types";
+import IndustryBalanceBarChart from "./components/charts/balance/industry-balance-bar-chart";
+import IndustryAmountBarChart from "./components/charts/sum/industry-amount-bar-chart";
+import StateBalanceBarChart from "./components/charts/balance/state-balance-bar-chart";
+import IndustryMovementPieChart from "./components/charts/total/industry-movement-pie-chart";
 
 const DashboardPage = () => {
   const [filterOptions, setFilterOptions] = useState<FilterOptions>({});
@@ -25,8 +27,10 @@ const DashboardPage = () => {
           initialFilter={filterOptions}
           onFilterChange={handleFilterChange}
         />
-        <BarChart filter={filterOptions} />
-        <LineChart />
+        <IndustryAmountBarChart filter={filterOptions} />
+        <IndustryBalanceBarChart filter={filterOptions} />
+        <StateBalanceBarChart filter={filterOptions} />
+        <IndustryMovementPieChart filter={filterOptions} />
       </Content>
     </Container>
   );

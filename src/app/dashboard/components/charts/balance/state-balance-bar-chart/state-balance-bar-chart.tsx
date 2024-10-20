@@ -1,18 +1,16 @@
-import { Bar } from "react-chartjs-2";
-import { CategoryScale } from "chart.js";
-import Chart from "chart.js/auto";
 import Card from "@/components/card";
-import { FilterOptions, Transaction } from "@/app/api/transactions/types";
-import { useEffect, useState } from "react";
+import { CategoryScale } from "chart.js";
+import { Bar } from "react-chartjs-2";
+import Chart from "chart.js/auto";
+import {  Transaction } from "@/app/api/transactions/types";
 import { generateQueryString } from "@/app/api/transactions/util/filter";
+import { useEffect, useState } from "react";
+import { negativeColors, positiveColors } from "../../commons";
+import { ChartProps } from "../../type";
 
 Chart.register(CategoryScale);
 
-type BarCardProps = {
-  filter: FilterOptions;
-};
-
-function BarCard({ filter }: BarCardProps) {
+function IndustryBalanceBarChart({ filter }: ChartProps) {
   const [result, setResult] = useState<
     (Transaction & { amount_sum: number })[]
   >([]);
@@ -22,7 +20,7 @@ function BarCard({ filter }: BarCardProps) {
       try {
         const query = generateQueryString(filter);
         const response = await fetch(
-          `/api/sum/industry/transaction_type?${query}`
+          `/api/sum/state/transaction_type?${query}`
         );
         if (response.ok) {
           const data = await response.json();
@@ -38,40 +36,47 @@ function BarCard({ filter }: BarCardProps) {
     fetchTransactions();
   }, [filter]);
 
-  const industries = [...new Set(result.map((item) => item.industry))];
+  const states = [...new Set(result.map((item) => item.state))];
 
-  const depositData: number[] = [];
-  const withdrawData: number[] = [];
+  const balanceData: number[] = [];
 
-  industries.forEach((industry) => {
-    const depositItem = result.find(
-      (item) =>
-        item.industry === industry && item.transaction_type === "deposit"
-    );
-    const withdrawItem = result.find(
-      (item) =>
-        item.industry === industry && item.transaction_type === "withdraw"
-    );
+  states.forEach((state) => {
+    const statesTransactions = result.filter((item) => item.state === state);
 
-    depositData.push(depositItem ? depositItem.amount_sum / 100 : 0);
-    withdrawData.push(withdrawItem ? withdrawItem.amount_sum / 100 : 0);
+    const balance = statesTransactions.reduce((acc, item) => {
+      if (item.transaction_type === "deposit") {
+        return acc + item.amount_sum / 100;
+      } else if (item.transaction_type === "withdraw") {
+        return acc - item.amount_sum / 100;
+      }
+      return acc;
+    }, 0);
+
+    balanceData.push(balance);
   });
+
+  const positiveBalanceData = balanceData.map((value) =>
+    value >= 0 ? value : null
+  );
+  const negativeBalanceData = balanceData.map((value) =>
+    value < 0 ? value : null
+  );
 
   return (
     <Card>
       <Bar
         data={{
-          labels: industries,
+          labels: states,
           datasets: [
             {
-              label: "Depósito",
-              data: depositData,
-              backgroundColor: "rgba(75, 192, 192, 0.6)",
+              label: "Saldo Positivo",
+              data: positiveBalanceData,
+              ...positiveColors,
             },
             {
-              label: "Saque",
-              data: withdrawData,
-              backgroundColor: "rgba(255, 99, 132, 0.6)",
+              label: "Saldo Negativo",
+              data: negativeBalanceData,
+              ...negativeColors,
             },
           ],
         }}
@@ -83,7 +88,7 @@ function BarCard({ filter }: BarCardProps) {
             },
             title: {
               display: true,
-              text: "Movimentação por Indústria",
+              text: "Saldo por Estados",
             },
             tooltip: {
               callbacks: {
@@ -111,6 +116,8 @@ function BarCard({ filter }: BarCardProps) {
               stacked: false,
               ticks: {
                 autoSkip: false,
+                maxRotation: 45,
+                minRotation: 0,
               },
             },
             y: {
@@ -124,4 +131,4 @@ function BarCard({ filter }: BarCardProps) {
   );
 }
 
-export default BarCard;
+export default IndustryBalanceBarChart;
