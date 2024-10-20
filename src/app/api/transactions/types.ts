@@ -26,3 +26,6 @@ export type SortOptions = {
   sortBy: keyof Transaction;
   sortOrder: "asc" | "desc";
 };
+
+export type TransactionAmountSum = Transaction & { amount_sum: number };
+export type TransactionAmountCount = Transaction & { amount_count: number };

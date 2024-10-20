@@ -1,9 +1,11 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { ChartProps, TransactionAmountCount } from "../../type";
 import { generateQueryString } from "@/app/api/transactions/util/filter";
-import Card from "@/components/card";
 import { Pie } from "react-chartjs-2";
 import { getBorderColor, getColor } from "../../commons";
+import { Grid, Paper, Typography } from "@mui/material";
 
 function IndustryMovementPieChart({ filter }: ChartProps) {
   const [result, setResult] = useState<TransactionAmountCount[]>([]);
@@ -36,26 +38,38 @@ function IndustryMovementPieChart({ filter }: ChartProps) {
   });
 
   return (
-    <Card>
-      <Pie
-        data={{
-          labels: industries,
-          datasets: [
-            {
-              label: "Movimentações",
-              data: totalMovements,
-              backgroundColor: totalMovements.map((_value, index) =>
-                getColor(index)
-              ),
-              borderColor: totalMovements.map((_value, index) =>
-                getBorderColor(index)
-              ),
-              borderWidth: 1,
+    <Grid item xs={12} md={6}>
+      <Paper elevation={3} sx={{ p: 2, height: "100%" }}>
+        <Typography variant="h6">Movimentação por Indústria</Typography>
+        <Pie
+          data={{
+            labels: industries,
+            datasets: [
+              {
+                label: "Movimentações",
+                data: totalMovements,
+                backgroundColor: totalMovements.map((_value, index) =>
+                  getColor(index)
+                ),
+                borderColor: totalMovements.map((_value, index) =>
+                  getBorderColor(index)
+                ),
+                borderWidth: 1,
+              },
+            ],
+          }}
+          options={{
+            responsive: true,
+            plugins: {
+              legend: {
+                position: "bottom",
+              },
             },
-          ],
-        }}
-      />
-    </Card>
+            aspectRatio: 1.5,
+          }}
+        />
+      </Paper>
+    </Grid>
   );
 }
 
