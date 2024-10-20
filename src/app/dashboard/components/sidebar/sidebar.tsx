@@ -16,16 +16,24 @@ import {
 
 import { Home, Logout, Menu } from "@mui/icons-material";
 import { useState } from "react";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 const drawerWidth = 240;
 
 function Sidebar() {
+  const router = useRouter();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const handleLogout = () => {
+    Cookies.remove("auth");
+    router.push("/login");
   };
 
   const drawer = (
@@ -36,13 +44,16 @@ function Sidebar() {
           <ListItemIcon>
             <Home />
           </ListItemIcon>
-          <ListItemText primary="Home" />
+          <ListItemText
+            primary="Home"
+            onClick={() => router.push("/dashboard")}
+          />
         </ListItemButton>
         <ListItemButton>
           <ListItemIcon>
             <Logout />
           </ListItemIcon>
-          <ListItemText primary="Logout" />
+          <ListItemText primary="Logout" onClick={handleLogout} />
         </ListItemButton>
       </List>
     </div>
