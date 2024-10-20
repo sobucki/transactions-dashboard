@@ -2,29 +2,30 @@ import { Bar } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import Chart from "chart.js/auto";
 import Card from "@/components/card";
-import { Transaction } from "@/app/api/transactions/types";
+import { FilterOptions, Transaction } from "@/app/api/transactions/types";
 import { useEffect, useState } from "react";
+import { generateQueryString } from "@/app/api/transactions/util/filter";
 
 Chart.register(CategoryScale);
 
 type BarCardProps = {
-  data: Transaction[];
+  filter: FilterOptions;
 };
 
-function BarCard({}: BarCardProps) {
+function BarCard({ filter }: BarCardProps) {
   const [result, setResult] = useState<
     (Transaction & { amount_sum: number })[]
   >([]);
 
   useEffect(() => {
-    const loadData = async () => {
+    const fetchTransactions = async () => {
       try {
-        const response: Response = await fetch(
-          "/api/sum/industry/transaction_type"
+        const query = generateQueryString(filter);
+        const response = await fetch(
+          `/api/sum/industry/transaction_type?${query}`
         );
         if (response.ok) {
-          const data: (Transaction & { amount_sum: number })[] =
-            await response.json();
+          const data = await response.json();
           setResult(data);
         } else {
           console.error("Falha ao buscar as transações:", response.statusText);
@@ -34,8 +35,8 @@ function BarCard({}: BarCardProps) {
       }
     };
 
-    loadData();
-  }, []);
+    fetchTransactions();
+  }, [filter]);
 
   const industries = [...new Set(result.map((item) => item.industry))];
 

@@ -10,6 +10,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@fontsource/roboto": "^5.1.0",
+    "@mui/icons-material": "^6.1.4",
+    "@mui/material": "^6.1.4",
+    "@mui/styled-engine-sc": "^6.1.4",
     "chart.js": "^4.4.5",
     "danfojs": "^1.1.2",
     "danfojs-node": "^1.1.2",

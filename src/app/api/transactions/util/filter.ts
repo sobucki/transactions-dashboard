@@ -35,3 +35,33 @@ export function buildFilterFromRequest(
 
   return filter;
 }
+
+export function generateQueryString(filterOptions: FilterOptions): string {
+  const params = new URLSearchParams();
+
+  if (filterOptions.startDate)
+    params.append("startDate", filterOptions.startDate);
+  if (filterOptions.endDate) params.append("endDate", filterOptions.endDate);
+  if (filterOptions.minAmount)
+    params.append("minAmount", filterOptions.minAmount);
+  if (filterOptions.maxAmount)
+    params.append("maxAmount", filterOptions.maxAmount);
+  if (filterOptions.transactionType)
+    params.append("transactionType", filterOptions.transactionType);
+  if (filterOptions.currency)
+    filterOptions.currency.forEach((currency) =>
+      params.append("currency", currency)
+    );
+  if (filterOptions.account)
+    filterOptions.account.forEach((account) =>
+      params.append("account", account)
+    );
+  if (filterOptions.industry)
+    filterOptions.industry.forEach((industry) =>
+      params.append("industry", industry)
+    );
+  if (filterOptions.state)
+    filterOptions.state.forEach((state) => params.append("state", state));
+
+  return params.toString();
+}
