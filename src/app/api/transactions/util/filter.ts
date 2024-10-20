@@ -13,7 +13,6 @@ export function buildFilterFromRequest(
     (searchParams.get("transactionType") as FilterOptions["transactionType"]) ||
     undefined;
 
-  // Parameters that are arrays
   const accounts = searchParams.getAll("account");
   if (accounts.length > 0) {
     filter.account = accounts;
