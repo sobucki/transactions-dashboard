@@ -14,6 +14,10 @@ import {
   AccordionSummary,
   AccordionDetails,
   Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useEffect, useState } from "react";
@@ -24,7 +28,7 @@ import accountNameOptions from "./data/accounts.json";
 import { FilterProps } from "./type";
 import { FilterOptions, TransactionType } from "@/app/api/transactions/types";
 
-function Filter({ initialFilter, onFilterChange }: FilterProps) {
+function Filter({ initialFilter, onFilterChange, onClose, open }: FilterProps) {
   const [startDate, setStartDate] = useState(initialFilter?.startDate || "");
   const [endDate, setEndDate] = useState(initialFilter?.endDate || "");
   const [minAmount, setMinAmount] = useState(initialFilter?.minAmount || "");
@@ -62,6 +66,7 @@ function Filter({ initialFilter, onFilterChange }: FilterProps) {
     setStates([]);
 
     onFilterChange({});
+    onClose();
   };
 
   const ITEM_HEIGHT = 48;
@@ -88,150 +93,140 @@ function Filter({ initialFilter, onFilterChange }: FilterProps) {
     };
 
     onFilterChange(filters);
+    onClose();
   };
 
   return (
-    <div>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="filter-content"
-          id="filter-header"
-        >
-          <Typography variant="h6">Filtros</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-            <TextField
-              label="Data de Início"
-              type="date"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-              InputLabelProps={{ shrink: true }}
-            />
-            <TextField
-              label="Data de Fim"
-              type="date"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-              InputLabelProps={{ shrink: true }}
-            />
-            <TextField
-              label="Valor Mínimo"
-              type="number"
-              value={minAmount}
-              onChange={(e) => setMinAmount(e.target.value)}
-            />
-            <TextField
-              label="Valor Máximo"
-              type="number"
-              value={maxAmount}
-              onChange={(e) => setMaxAmount(e.target.value)}
-            />
-            <FormControl style={{ minWidth: 150 }}>
-              <InputLabel id="transaction-type-label">
-                Tipo de Transação
-              </InputLabel>
-              <Select
-                labelId="transaction-type-label"
-                value={transactionType}
-                label="Tipo de Transação"
-                onChange={(e) =>
-                  setTransactionType(e.target.value as TransactionType)
-                }
-              >
-                <MenuItem value="">
-                  <em>Todos</em>
-                </MenuItem>
-                <MenuItem value="deposit">Depósito</MenuItem>
-                <MenuItem value="withdraw">Saque</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-
-          <div style={{ marginTop: "1rem" }}>
-            <FormControl fullWidth>
-              <InputLabel id="account-name-label">Nome da Conta</InputLabel>
-              <Select
-                labelId="account-name-label"
-                multiple
-                value={accountNames}
-                onChange={(e) => setAccountNames(e.target.value as string[])}
-                input={<OutlinedInput label="Nome da Conta" />}
-                renderValue={(selected) => selected.join(", ")}
-                MenuProps={MenuProps}
-              >
-                {accountNameOptions.map((name) => (
-                  <MenuItem key={name} value={name}>
-                    <Checkbox checked={accountNames.indexOf(name) > -1} />
-                    <ListItemText primary={name} />
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </div>
-
-          <div style={{ marginTop: "1rem" }}>
-            <FormControl fullWidth>
-              <InputLabel id="industry-label">Indústria</InputLabel>
-              <Select
-                labelId="industry-label"
-                multiple
-                value={industries}
-                onChange={(e) => setIndustries(e.target.value as string[])}
-                input={<OutlinedInput label="Indústria" />}
-                renderValue={(selected) => selected.join(", ")}
-                MenuProps={MenuProps}
-              >
-                {industryOptions.map((industry) => (
-                  <MenuItem key={industry} value={industry}>
-                    <Checkbox checked={industries.indexOf(industry) > -1} />
-                    <ListItemText primary={industry} />
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </div>
-
-          <div style={{ marginTop: "1rem" }}>
-            <FormControl fullWidth>
-              <InputLabel id="state-label">Estado</InputLabel>
-              <Select
-                labelId="state-label"
-                multiple
-                value={states}
-                onChange={(e) => setStates(e.target.value as string[])}
-                input={<OutlinedInput label="Estado" />}
-                renderValue={(selected) => selected.join(", ")}
-                MenuProps={MenuProps}
-              >
-                {stateOptions.map((state) => (
-                  <MenuItem key={state.abbreviation} value={state.abbreviation}>
-                    <Checkbox
-                      checked={states.indexOf(state.abbreviation) > -1}
-                    />
-                    <ListItemText primary={state.name} />
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </div>
-
-          <div style={{ marginTop: "1rem", display: "flex", gap: "1rem" }}>
-            <Button variant="contained" color="primary" onClick={applyFilters}>
-              Buscar
-            </Button>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={handleClearFilters}
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+      <DialogTitle>Filtros</DialogTitle>
+      <DialogContent dividers>
+        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+          <TextField
+            label="Data de Início"
+            type="date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            InputLabelProps={{ shrink: true }}
+          />
+          <TextField
+            label="Data de Fim"
+            type="date"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+            InputLabelProps={{ shrink: true }}
+          />
+          <TextField
+            label="Valor Mínimo"
+            type="number"
+            value={minAmount}
+            onChange={(e) => setMinAmount(e.target.value)}
+          />
+          <TextField
+            label="Valor Máximo"
+            type="number"
+            value={maxAmount}
+            onChange={(e) => setMaxAmount(e.target.value)}
+          />
+          <FormControl style={{ minWidth: 150 }}>
+            <InputLabel id="transaction-type-label">
+              Tipo de Transação
+            </InputLabel>
+            <Select
+              labelId="transaction-type-label"
+              value={transactionType}
+              label="Tipo de Transação"
+              onChange={(e) =>
+                setTransactionType(e.target.value as TransactionType)
+              }
             >
-              Limpar
-            </Button>
-          </div>
-        </AccordionDetails>
-      </Accordion>
-    </div>
+              <MenuItem value="">
+                <em>Todos</em>
+              </MenuItem>
+              <MenuItem value="deposit">Depósito</MenuItem>
+              <MenuItem value="withdraw">Saque</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+
+        <div style={{ marginTop: "1rem" }}>
+          <FormControl fullWidth>
+            <InputLabel id="account-name-label">Nome da Conta</InputLabel>
+            <Select
+              labelId="account-name-label"
+              multiple
+              value={accountNames}
+              onChange={(e) => setAccountNames(e.target.value as string[])}
+              input={<OutlinedInput label="Nome da Conta" />}
+              renderValue={(selected) => selected.join(", ")}
+              MenuProps={MenuProps}
+            >
+              {accountNameOptions.map((name) => (
+                <MenuItem key={name} value={name}>
+                  <Checkbox checked={accountNames.indexOf(name) > -1} />
+                  <ListItemText primary={name} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+
+        <div style={{ marginTop: "1rem" }}>
+          <FormControl fullWidth>
+            <InputLabel id="industry-label">Indústria</InputLabel>
+            <Select
+              labelId="industry-label"
+              multiple
+              value={industries}
+              onChange={(e) => setIndustries(e.target.value as string[])}
+              input={<OutlinedInput label="Indústria" />}
+              renderValue={(selected) => selected.join(", ")}
+              MenuProps={MenuProps}
+            >
+              {industryOptions.map((industry) => (
+                <MenuItem key={industry} value={industry}>
+                  <Checkbox checked={industries.indexOf(industry) > -1} />
+                  <ListItemText primary={industry} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+
+        <div style={{ marginTop: "1rem" }}>
+          <FormControl fullWidth>
+            <InputLabel id="state-label">Estado</InputLabel>
+            <Select
+              labelId="state-label"
+              multiple
+              value={states}
+              onChange={(e) => setStates(e.target.value as string[])}
+              input={<OutlinedInput label="Estado" />}
+              renderValue={(selected) => selected.join(", ")}
+              MenuProps={MenuProps}
+            >
+              {stateOptions.map((state) => (
+                <MenuItem key={state.abbreviation} value={state.abbreviation}>
+                  <Checkbox checked={states.indexOf(state.abbreviation) > -1} />
+                  <ListItemText primary={state.name} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+      </DialogContent>
+      <DialogActions>
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={handleClearFilters}
+        >
+          Limpar
+        </Button>
+        <Button variant="contained" color="primary" onClick={applyFilters}>
+          Buscar
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }
 
