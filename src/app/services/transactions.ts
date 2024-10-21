@@ -32,7 +32,7 @@ export async function fetchAndCalculateBalance(): Promise<string> {
 }
 
 export async function fetchAndCalculateRevenue(): Promise<string> {
-  const apiUrl = "/api/sum/transaction_type?transaction_type=deposit";
+  const apiUrl = "/api/sum/transaction_type?transactionType=deposit";
 
   try {
     const response = await fetch(apiUrl, { cache: "default" });
@@ -55,7 +55,7 @@ export async function fetchAndCalculateRevenue(): Promise<string> {
 }
 
 export async function fetchAndCalculateDrawn(): Promise<string> {
-  const apiUrl = "/api/sum/transaction_type?transaction_type=withdraw";
+  const apiUrl = "/api/sum/transaction_type?transactionType=withdraw";
 
   try {
     const response = await fetch(apiUrl, { cache: "default" });
@@ -65,9 +65,9 @@ export async function fetchAndCalculateDrawn(): Promise<string> {
 
     const transactions: TransactionAmountSum[] = await response.json();
 
-    const totalDeposit = transactions.reduce((sum, t) => sum + t.amount_sum, 0);
+    const totalDrawn = transactions.reduce((sum, t) => sum + t.amount_sum, 0);
 
-    return (totalDeposit / 100).toLocaleString("pt-BR", {
+    return (totalDrawn / 100).toLocaleString("pt-BR", {
       style: "currency",
       currency: "BRL",
     });
