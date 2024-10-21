@@ -16,11 +16,9 @@ O arquivo `transactions.json` inclui os seguintes campos:
 - `industry`: A categoria de indústria à qual a empresa da transação pertence.
 - `state`: O estado onde a empresa da transação está incorporada.
 
-> ⚠️ **Aviso: Para fins de desenvolvimento o acesso ao dashboard só é possível utilizando as seguintes credenciais:**
->
-> - **Usuário:** `admin`
-> - **Senha:** `admin`
-
+| :warning: **Aviso: Para fins de desenvolvimento o acesso ao dashboard só é possível utilizando as seguintes credenciais:** :warning: |
+| :----------------------------------------------------------------------------------------------------------------------------------- |
+| **Usuário**:`admin` **Senha:** `admin`                                                                                               |
 
 ## Funcionalidades
 
