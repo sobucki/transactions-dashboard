@@ -6,6 +6,7 @@ export type Transaction = {
   account: string;
   industry: string;
   state: string;
+  formatted_date: string;
 };
 
 export type TransactionType = "deposit" | "withdraw";
@@ -20,6 +21,7 @@ export type FilterOptions = {
   account?: string[];
   industry?: string[];
   state?: string[];
+  dateFormat?: string;
 };
 
 export type SortOptions = {

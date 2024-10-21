@@ -1,4 +1,4 @@
-import { endOfDay, parseISO, startOfDay } from "date-fns";
+import { endOfDay, format, parseISO, startOfDay } from "date-fns";
 import { FilterOptions, SortOptions, Transaction } from "../types";
 
 export function filterTransactions(
@@ -83,6 +83,16 @@ export function filterTransactions(
       return 0;
     });
   }
+
+  filteredData = filteredData.map((transaction) => {
+    return {
+      ...transaction,
+      formatted_date: format(
+        new Date(transaction.date),
+        filter.dateFormat || "yyyy-MM-dd"
+      ),
+    };
+  });
 
   return filteredData;
 }

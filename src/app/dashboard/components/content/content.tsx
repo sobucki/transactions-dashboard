@@ -11,6 +11,7 @@ import Summary from "../summary";
 import Filter from "../filter";
 import Cookies from "js-cookie";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import IndustryMovementDateLineChart from "../charts/total/industry-movement-date-line-chart";
 
 function Content() {
   const [filterOptions, setFilterOptions] = useState<FilterOptions | null>(
@@ -68,6 +69,7 @@ function Content() {
           <IndustryBalanceBarChart filter={filterOptions} />
           <StateBalanceBarChart filter={filterOptions} />
           <IndustryMovementPieChart filter={filterOptions} />
+          <IndustryMovementDateLineChart filter={filterOptions} />
         </Grid>
       </Box>
     </Box>

@@ -72,7 +72,7 @@ function Sidebar() {
                 <Menu />
               </IconButton>
               <Typography variant="h6" noWrap>
-                Meu Dashboard
+                Transactions Dashboard
               </Typography>
             </Toolbar>
           </AppBar>

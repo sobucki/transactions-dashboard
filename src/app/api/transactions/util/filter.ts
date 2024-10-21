@@ -32,6 +32,10 @@ export function buildFilterFromRequest(
   if (currencies.length > 0) {
     filter.currency = currencies;
   }
+  const dateFormat = searchParams.get("dateFormat");
+  if (dateFormat) {
+    filter.dateFormat = dateFormat;
+  }
 
   return filter;
 }

@@ -12,6 +12,7 @@ const validFields = [
   "state",
   "transaction_type",
   "currency",
+  "formatted_date",
 ];
 const validOperations = ["sum", "min", "max", "mean", "count"];
 
