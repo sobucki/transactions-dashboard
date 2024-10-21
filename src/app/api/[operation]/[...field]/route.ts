@@ -46,8 +46,10 @@ export async function GET(
 
     data = filterTransactions(data, filter);
 
+    if (data.length === 0) return NextResponse.json([], { status: 200 });
+
     const df = new dfd.DataFrame(
-      data.map((d) => ({ ...d, amount: Number(d.amount) }))
+      data.map((d) => ({ ...d, amount: Number(d.amount) || 0 }))
     );
 
     const groupedSum = df.groupby(fields).agg({ amount: operation });
