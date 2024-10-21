@@ -20,8 +20,8 @@ import { useEffect, useState } from "react";
 import stateOptions from "./data/states.json";
 import industryOptions from "./data/industries.json";
 import accountNameOptions from "./data/accounts.json";
-import { FilterProps } from "./type";
 import { FilterOptions, TransactionType } from "@/app/api/transactions/types";
+import { FilterProps } from "./type";
 
 function Filter({ initialFilter, onFilterChange, onClose, open }: FilterProps) {
   const [startDate, setStartDate] = useState(initialFilter?.startDate || "");
