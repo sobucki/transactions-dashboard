@@ -10,16 +10,11 @@ import {
   InputLabel,
   ListItemText,
   OutlinedInput,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Typography,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
 } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useEffect, useState } from "react";
 
 import stateOptions from "./data/states.json";
