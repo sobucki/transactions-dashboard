@@ -17,7 +17,6 @@ function IndustryMovementDateLine({ filter }: ChartProps) {
         const response = await fetch(
           `/api/count/transaction_type/formatted_date?dateFormat=yyyy-MM&${query}`
         );
-        console.log("response", response);
 
         if (response.ok) {
           const data = await response.json();

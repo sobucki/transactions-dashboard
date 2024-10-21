@@ -5,13 +5,23 @@ export function buildFilterFromRequest(
 ): FilterOptions {
   const filter: FilterOptions = {};
 
-  filter.startDate = searchParams.get("startDate") || undefined;
-  filter.endDate = searchParams.get("endDate") || undefined;
-  filter.minAmount = searchParams.get("minAmount") || undefined;
-  filter.maxAmount = searchParams.get("maxAmount") || undefined;
-  filter.transactionType =
-    (searchParams.get("transactionType") as FilterOptions["transactionType"]) ||
-    undefined;
+  if (searchParams.get("startDate") !== null)
+    filter.startDate = searchParams.get("startDate") || undefined;
+
+  if (searchParams.get("endDate") !== null)
+    filter.endDate = searchParams.get("endDate") || undefined;
+
+  if (searchParams.get("maxAmount") !== null)
+    filter.maxAmount = searchParams.get("maxAmount") || undefined;
+
+  if (searchParams.get("minAmount") !== null)
+    filter.minAmount = searchParams.get("minAmount") || undefined;
+
+  if (searchParams.get("transactionType") !== null)
+    filter.transactionType =
+      (searchParams.get(
+        "transactionType"
+      ) as FilterOptions["transactionType"]) || undefined;
 
   const accounts = searchParams.getAll("account");
   if (accounts.length > 0) {
