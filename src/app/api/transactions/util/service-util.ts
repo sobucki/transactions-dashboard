@@ -61,18 +61,18 @@ export function filterTransactions(
   }
 
   if (filter.maxAmount !== undefined) {
+    const maxAmount = filter.maxAmount.replace(/\./g, "");
     filteredData = filteredData.filter(
       (transaction) =>
-        filter.maxAmount &&
-        parseFloat(transaction.amount) <= parseFloat(filter.maxAmount)
+        maxAmount && parseFloat(transaction.amount) <= parseFloat(maxAmount)
     );
   }
 
   if (filter.minAmount !== undefined) {
+    const minAmount = filter.minAmount.replace(/\./g, "");
     filteredData = filteredData.filter(
       (transaction) =>
-        filter.minAmount &&
-        parseFloat(transaction.amount) >= parseFloat(filter.minAmount)
+        minAmount && parseFloat(transaction.amount) >= parseFloat(minAmount)
     );
   }
   if (finalSortOptions) {

@@ -15,7 +15,7 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import stateOptions from "./data/states.json";
 import industryOptions from "./data/industries.json";
@@ -79,16 +79,40 @@ function Filter({ initialFilter, onFilterChange, onClose, open }: FilterProps) {
     const filters: FilterOptions = {
       startDate,
       endDate,
-      minAmount,
-      maxAmount,
+      minAmount: minAmount ? Number(minAmount).toFixed(2) : minAmount,
+      maxAmount: maxAmount ? Number(maxAmount).toFixed(2) : maxAmount,
       transactionType: transactionType as TransactionType,
       account: accountNames,
       industry: industries,
       state: states,
     };
 
+    console.log(filters);
+
     onFilterChange(filters);
     onClose();
+  };
+
+  const handleChange = (
+    value: string,
+    setValue: Dispatch<SetStateAction<string>>
+  ) => {
+    const numericValue = value.replace(/[^\d.]/g, "");
+    const decimalIndex = numericValue.indexOf(".");
+
+    if (decimalIndex !== -1) {
+      const decimals = numericValue.slice(decimalIndex + 1);
+
+      if (decimals.length > 2) {
+        return;
+      }
+    }
+
+    if (numericValue === "") {
+      setValue("");
+    } else {
+      setValue(numericValue);
+    }
   };
 
   return (
@@ -114,13 +138,13 @@ function Filter({ initialFilter, onFilterChange, onClose, open }: FilterProps) {
             label="Valor Mínimo"
             type="number"
             value={minAmount}
-            onChange={(e) => setMinAmount(e.target.value)}
+            onChange={(e) => handleChange(e.target.value, setMinAmount)}
           />
           <TextField
             label="Valor Máximo"
             type="number"
             value={maxAmount}
-            onChange={(e) => setMaxAmount(e.target.value)}
+            onChange={(e) => handleChange(e.target.value, setMaxAmount)}
           />
           <FormControl style={{ minWidth: 150 }}>
             <InputLabel id="transaction-type-label">
