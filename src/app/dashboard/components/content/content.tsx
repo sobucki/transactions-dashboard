@@ -2,32 +2,29 @@
 
 import { FilterOptions } from "@/app/api/transactions/types";
 import { Box, Toolbar, Grid, Fab } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import IndustryBalanceBarChart from "../charts/balance/industry-balance-bar-chart";
 import IndustryAmountBarChart from "../charts/sum/industry-amount-bar-chart";
 import StateBalanceBarChart from "../charts/balance/state-balance-bar-chart";
 import IndustryMovementPieChart from "../charts/total/industry-movement-pie-chart";
 import Summary from "../summary";
 import Filter from "../filter";
-import Cookies from "js-cookie";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import IndustryMovementDateLineChart from "../charts/total/industry-movement-date-line-chart";
+import { useRouter, useSearchParams } from "next/navigation";
+import {
+  buildFilterFromRequest,
+  generateQueryString,
+} from "@/app/api/transactions/util/filter";
 
 function Content() {
-  const [filterOptions, setFilterOptions] = useState<FilterOptions | null>(
-    null
-  );
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const filterOptions = buildFilterFromRequest(searchParams);
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
 
-  useEffect(() => {
-    const savedFilter = Cookies.get("filter");
-    const initialFilter = savedFilter ? JSON.parse(savedFilter) : {};
-    setFilterOptions(initialFilter);
-  }, []);
-
   const handleFilterChange = (filters: FilterOptions) => {
-    Cookies.set("filter", JSON.stringify(filters));
-    setFilterOptions(filters);
+    router.push("/dashboard?" + generateQueryString(filters));
   };
 
   if (filterOptions === null) {
