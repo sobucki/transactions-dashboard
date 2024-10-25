@@ -4,7 +4,7 @@ import { Container } from "./styles";
 import Sidebar from "./components/sidebar";
 import Content from "./components/content";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import Cookies from "js-cookie";
 
 const DashboardPage = () => {
@@ -20,7 +20,9 @@ const DashboardPage = () => {
   return (
     <Container>
       <Sidebar />
-      <Content />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Content />
+      </Suspense>
     </Container>
   );
 };
